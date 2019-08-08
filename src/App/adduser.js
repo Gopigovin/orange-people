@@ -2,8 +2,7 @@ import React from "react";
 import serialize from 'form-serialize';
 
 class AddUser extends React.Component {
-  constructor(props) {
-    debugger
+  constructor(props) {    
     super(props);
   }
 

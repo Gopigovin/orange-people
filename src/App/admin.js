@@ -40,7 +40,7 @@ class Admin extends React.Component {
     var form = document.querySelector('#data');
     ;
     var addRentData = serialize(form, { hash: true });
-    addRentData = { "username": addRentData.username, "month": addRentData.month, "amount": addRentData.amount, "balance": addRentData.balance }
+    addRentData = { "username": addRentData.username, "monthData":[ {"amount": addRentData.amount, "balance": addRentData.balance,"date": addRentData.date}] }
     fetch('http://localhost:3000/addrent', {
       method: 'POST',
       headers: {
@@ -126,7 +126,8 @@ class Admin extends React.Component {
             };
             arr.push(obj);
           });
-          this.setState({
+          debugger;
+          this.setState({            
             userData: data, loginState: false,
             friendOptions: arr
 

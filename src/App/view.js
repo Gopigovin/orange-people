@@ -4,9 +4,8 @@ import { Bar, Pie, Line } from 'react-chartjs-2';
 import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-balham.css';
-
-
-
+import 'ag-grid-enterprise';
+import cloneDeep from 'lodash/cloneDeep';
 
 class View extends React.Component {
 
@@ -20,9 +19,10 @@ class View extends React.Component {
       },
       columnDefs: [
         {
-          headerName: "Name", field: "name", width: 100,
+          headerName: "Id", field: "_id", width: 100,
           sortable: true, filter: true
-        }, {
+        },
+        {
           headerName: "Email", field: "email", sortable: true, filter: true, width: 100
         },
         {
@@ -53,15 +53,22 @@ class View extends React.Component {
         {
           headerName: "Joining Date", field: "doj", sortable: true, filter: true, width: 100,
         },
-
         {
-          headerName: "ID", field: "_id", sortable: true, filter: true, hide: false,
-        }],
-      rowData: null
+          headerName: "Amount", field: "amount", sortable: true, filter: true, width: 100,
+        },
+        {
+          headerName: "date", field: "date", sortable: true, filter: true, width: 100,
+        },
+        {
+          headerName: "Balance", field: "balance", sortable: true, filter: true, width: 100, 
+        },
+      ],
+      viewRowData: null,
+      rentRowData:null
     }
   }
   gridOnCellEditingStopped(event) {
-    debugger;
+    ;
     var event;
     var field = event.colDef.field;
     var value = event.value;
@@ -76,7 +83,7 @@ class View extends React.Component {
       })
     }).then(response => response.json())
       .then(function (data) {
-        debugger
+
         if (data.status == 204) {
 
         } else {
@@ -90,10 +97,22 @@ class View extends React.Component {
   }
 
   componentDidMount() {
-    debugger
+    debugger;
+    let arr = [];
     if (this.props.state) {
+      // var userData= cloneDeep(this.props.state.userData);
+      // userData.forEach( function(value,index,array) {
+      //   userData[index].monthData.forEach( function(mvalue, mindex,marray){
+      //     userData[index].date=userData[index].monthData[mindex].date;
+      //     userData[index].amount=userData[index].monthData[mindex].amount;
+      //     userData[index].balance=userData[index].monthData[mindex].balance;        
+      //     arr.push(cloneDeep(userData[index]));
+      //   }.bind(this));     
+      // }.bind(this));
+      // var json = [{ "_id":"123","email": "123@gmail.com", "name": "1", "hostelno": "1", "roomno": "2399", "sharingtype": "AC", "doj": "2518-08-09", "advanceamount": "40000", "smobileno": "8015074815", "pmobileno": "12324234325", "Professiontype": "working", "address": "1229, 5th street,, Thendral colony, Anna nagar west,", "key": "user", "date": "14/2/2018", "amount": "10", "balance": "20" },
+      // { "_id":"123","email": "123@gmail.com", "name": "1", "hostelno": "1", "roomno": "2399", "sharingtype": "AC", "doj": "2019-08-09", "advanceamount": "40000", "smobileno": "8015074815", "pmobileno": "12324234325", "Professiontype": "working", "address": "1229, 5th street,, Thendral colony, Anna nagar west,", "key": "user", "date": "12/2/2018", "amount": "108", "balance": "520" }];
       this.setState({
-        rowData: this.props.state.userData
+        viewRowData: this.props.state.userData,        
       });
     }
   }
@@ -116,7 +135,7 @@ class View extends React.Component {
                   columnDefs={this.state.columnDefs} defaultColDef={
                     this.state.edit
                   } onCellEditingStopped={this.gridOnCellEditingStopped}
-                  rowData={this.state.rowData}>
+                  rowData={this.state.viewRowData}>
                 </AgGridReact>
               </div>
             </div>

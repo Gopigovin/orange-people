@@ -3,8 +3,10 @@ import serialize from 'form-serialize';
 import { Dropdown } from 'semantic-ui-react';
 import { Form, Button } from 'semantic-ui-react';
 import { AgGridReact } from 'ag-grid-react';
+import 'ag-grid-enterprise';
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-balham.css';
+import cloneDeep from 'lodash/cloneDeep';
 
 class AddRent extends React.Component {
   constructor(props) {
@@ -23,6 +25,10 @@ class AddRent extends React.Component {
           headerName: "Name", field: "name", width: 100,
           sortable: true, filter: true
         }, {
+          headerName: "Id", field: "_id", width: 100,
+          sortable: true, filter: true, rowGroup: true
+        }
+        , {
           headerName: "Email", field: "email", sortable: true, filter: true, width: 100
         },
         {
@@ -49,18 +55,18 @@ class AddRent extends React.Component {
         {
           headerName: "Address", field: "address", sortable: true, filter: true
         },
-        // {
-        //   headerName: "Amount", field: "amount", sortable: true, filter: true
-        // },
-        // {
-        //   headerName: "Month", field: "month", sortable: true, filter: true
-        // },
         {
-          headerName: "monthData", field: "monthData.amount", sortable: true, filter: true
+          headerName: "Amount", field: "amount", sortable: true, filter: true
         },
+        {
+          headerName: "Balance", field: "balance", sortable: true, filter: true
+        },
+        {
+          headerName: "Month", field: "date", sortable: true, filter: true
+        }
 
       ],
-      rowData: null
+      rentRowData: null
     }
   }
 
@@ -96,11 +102,24 @@ class AddRent extends React.Component {
   componentDidMount() {
     debugger
     if (this.props.state) {
+      let arr = [];
+      var userData = cloneDeep(this.props.state.userData);
+      userData.forEach(function (value, index, array) {
+        if (userData[index].hasOwnProperty("monthData")) {
+          userData[index].monthData.forEach(function (mvalue, mindex, marray) {
+            userData[index].date = userData[index].monthData[mindex][0].date;
+            userData[index].amount = userData[index].monthData[mindex][0].amount;
+            userData[index].balance = userData[index].monthData[mindex][0].balance;
+            arr.push(cloneDeep(userData[index]));
+          }.bind(this));
+        }
+      }.bind(this));
       this.setState({
-        rowData: this.props.state.userData
+        rentRowData: arr || this.props.state.userData
       });
     }
   }
+
 
 
   onChange = (e, data) => {
@@ -131,7 +150,7 @@ class AddRent extends React.Component {
                 </div>
                 <div className="form-group">
                   <label for="exampleInputEmail1">Month</label>
-                  <input type="month" className="form-control" placeholder="Email" name="month"></input>
+                  <input type="month" className="form-control" placeholder="Email" name="date"></input>
                 </div>
                 <input type="submit" value="Add" className="btn btn-outline-primary w-25" />
               </div>
@@ -152,7 +171,7 @@ class AddRent extends React.Component {
                     columnDefs={this.state.columnDefs} defaultColDef={
                       this.state.edit
                     } onCellEditingStopped={this.gridOnCellEditingStopped}
-                    rowData={this.state.rowData}>
+                    rowData={this.state.rentRowData}>
                   </AgGridReact>
                 </div>
               </div>
