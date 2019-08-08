@@ -6,6 +6,7 @@ import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-balham.css';
 import 'ag-grid-enterprise';
 import cloneDeep from 'lodash/cloneDeep';
+import { Button, Form } from 'semantic-ui-react'
 
 class View extends React.Component {
 
@@ -15,12 +16,16 @@ class View extends React.Component {
     this.state = {
       edit: {
         editable: true,
-        resizable: true
+        resizable: true,
+        userData: null
       },
       columnDefs: [
         {
           headerName: "Id", field: "_id", width: 100,
           sortable: true, filter: true
+        },
+        {
+          headerName: "Name", field: "name", sortable: true, filter: true, width: 100
         },
         {
           headerName: "Email", field: "email", sortable: true, filter: true, width: 100
@@ -53,22 +58,21 @@ class View extends React.Component {
         {
           headerName: "Joining Date", field: "doj", sortable: true, filter: true, width: 100,
         },
-        {
-          headerName: "Amount", field: "amount", sortable: true, filter: true, width: 100,
-        },
-        {
-          headerName: "date", field: "date", sortable: true, filter: true, width: 100,
-        },
-        {
-          headerName: "Balance", field: "balance", sortable: true, filter: true, width: 100, 
-        },
+        // {
+        //   headerName: "Amount", field: "amount", sortable: true, filter: true, width: 100,
+        // },
+        // {
+        //   headerName: "date", field: "date", sortable: true, filter: true, width: 100,
+        // },
+        // {
+        //   headerName: "Balance", field: "balance", sortable: true, filter: true, width: 100, 
+        // },
       ],
       viewRowData: null,
-      rentRowData:null
+      rentRowData: null
     }
   }
   gridOnCellEditingStopped(event) {
-    ;
     var event;
     var field = event.colDef.field;
     var value = event.value;
@@ -91,8 +95,6 @@ class View extends React.Component {
         }
 
       }).catch(function (error) {
-
-
       })
   }
 
@@ -100,20 +102,40 @@ class View extends React.Component {
     debugger;
     let arr = [];
     if (this.props.state) {
-      // var userData= cloneDeep(this.props.state.userData);
-      // userData.forEach( function(value,index,array) {
-      //   userData[index].monthData.forEach( function(mvalue, mindex,marray){
-      //     userData[index].date=userData[index].monthData[mindex].date;
-      //     userData[index].amount=userData[index].monthData[mindex].amount;
-      //     userData[index].balance=userData[index].monthData[mindex].balance;        
-      //     arr.push(cloneDeep(userData[index]));
-      //   }.bind(this));     
-      // }.bind(this));
-      // var json = [{ "_id":"123","email": "123@gmail.com", "name": "1", "hostelno": "1", "roomno": "2399", "sharingtype": "AC", "doj": "2518-08-09", "advanceamount": "40000", "smobileno": "8015074815", "pmobileno": "12324234325", "Professiontype": "working", "address": "1229, 5th street,, Thendral colony, Anna nagar west,", "key": "user", "date": "14/2/2018", "amount": "10", "balance": "20" },
-      // { "_id":"123","email": "123@gmail.com", "name": "1", "hostelno": "1", "roomno": "2399", "sharingtype": "AC", "doj": "2019-08-09", "advanceamount": "40000", "smobileno": "8015074815", "pmobileno": "12324234325", "Professiontype": "working", "address": "1229, 5th street,, Thendral colony, Anna nagar west,", "key": "user", "date": "12/2/2018", "amount": "108", "balance": "520" }];
-      this.setState({
-        viewRowData: this.props.state.userData,        
-      });
+      fetch('http://localhost:3000/admin', {
+        method: 'GET',
+      }).then(response => response.json())
+        .then(function (data) {
+          debugger;
+          if (data.status == 204) {
+            this.setState({
+              viewRowData: null, loginState: true
+            })
+          } else {
+            document.querySelector('#viewloading').classList.remove("loading");
+            var arr = [];
+            var obj = {};
+            data.forEach(function (value, index, array) {
+              obj = {
+                key: value["_id"],
+                text: value["name"],
+                value: value["_id"]
+              };
+              arr.push(obj);
+            });
+            debugger;
+            this.setState({
+              viewRowData: data, loginState: false,
+              friendOptions: arr
+            });
+          }
+        }.bind(this)
+        ).catch(function (error) {
+          this.setState({
+            viewRowData: null,
+            loginState: false,
+          })
+        }.bind(this));
     }
   }
 
@@ -123,24 +145,26 @@ class View extends React.Component {
     }
     return (
       <div id="results" className="App">
-        <div className="App">
+        <Form id="viewloading" className="loading">
+          <div className="App">
 
-          {
-            <div>
-              <div className="ag-theme-balham col-md-12 p-5"
-                style={{
-                  height: '500px'
-                }} >
-                <AgGridReact
-                  columnDefs={this.state.columnDefs} defaultColDef={
-                    this.state.edit
-                  } onCellEditingStopped={this.gridOnCellEditingStopped}
-                  rowData={this.state.viewRowData}>
-                </AgGridReact>
+            {
+              <div>
+                <div className="ag-theme-balham col-md-12 p-5"
+                  style={{
+                    height: '500px'
+                  }} >
+                  <AgGridReact
+                    columnDefs={this.state.columnDefs} defaultColDef={
+                      this.state.edit
+                    } onCellEditingStopped={this.gridOnCellEditingStopped}
+                    rowData={this.state.viewRowData}>
+                  </AgGridReact>
+                </div>
               </div>
-            </div>
-          }
-        </div>
+            }
+          </div>
+        </Form>
       </div>
     );
   }

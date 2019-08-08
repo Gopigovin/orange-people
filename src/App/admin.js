@@ -40,7 +40,7 @@ class Admin extends React.Component {
     var form = document.querySelector('#data');
     ;
     var addRentData = serialize(form, { hash: true });
-    addRentData = { "username": addRentData.username, "monthData":[ {"amount": addRentData.amount, "balance": addRentData.balance,"date": addRentData.date}] }
+    addRentData = { "username": addRentData.username, "monthData": [{ "amount": addRentData.amount, "balance": addRentData.balance, "date": addRentData.date }] }
     fetch('http://localhost:3000/addrent', {
       method: 'POST',
       headers: {
@@ -67,11 +67,13 @@ class Admin extends React.Component {
 
 
   onAddUserSubmit = function (event) {
+    debugger
     event.preventDefault();
     var form = document.querySelector('#data');
-    ;
+    document.querySelector('#loading').classList.add("loading");
     var addData = serialize(form, { hash: true });
     addData["key"] = "user";
+    // addData["uniqueID"] = "p"+;
     fetch('http://localhost:3000/add', {
       method: 'POST',
       headers: {
@@ -86,6 +88,8 @@ class Admin extends React.Component {
         if (data.status == 204) {
 
         } else {
+          debugger
+          document.querySelector('#loading').classList.remove("loading");
 
         }
 
@@ -97,15 +101,8 @@ class Admin extends React.Component {
   }.bind(this);
 
   componentDidMount() {
-
     fetch('http://localhost:3000/admin', {
       method: 'GET',
-      // headers: {
-      //   'Content-Type': 'application/json'
-      // },
-      // body: JSON.stringify({
-      //   "token": localStorage.getItem("token")
-      // })
     }).then(response => response.json())
       .then(function (data) {
 
@@ -114,8 +111,6 @@ class Admin extends React.Component {
             userData: null, loginState: true
           })
         } else {
-
-
           var arr = [];
           var obj = {};
           data.forEach(function (value, index, array) {
@@ -127,23 +122,18 @@ class Admin extends React.Component {
             arr.push(obj);
           });
           debugger;
-          this.setState({            
+          this.setState({
             userData: data, loginState: false,
             friendOptions: arr
 
           });
         }
-
       }.bind(this)
       ).catch(function (error) {
-
         this.setState({
           userData: null,
           loginState: false,
-
-
         })
-
       }.bind(this));
   }
   toggleClick() {

@@ -75,7 +75,10 @@ class AddRent extends React.Component {
     var event;
     var field = event.colDef.field;
     var value = event.value;
-    var updateData = { _id: event.data._id, field: field, value: value }
+    if(field=="balance"){
+      event.data.monthData[event.rowIndex-1].balance= value;
+    }    
+    var updateData = { _id: event.data._id, field: field, value: value, data: event.data,rowIndex: event.rowIndex }
     fetch('http://localhost:3000/update', {
       method: 'POST',
       headers: {
@@ -107,9 +110,10 @@ class AddRent extends React.Component {
       userData.forEach(function (value, index, array) {
         if (userData[index].hasOwnProperty("monthData")) {
           userData[index].monthData.forEach(function (mvalue, mindex, marray) {
-            userData[index].date = userData[index].monthData[mindex][0].date;
-            userData[index].amount = userData[index].monthData[mindex][0].amount;
-            userData[index].balance = userData[index].monthData[mindex][0].balance;
+            debugger;
+            userData[index].date = userData[index].monthData[mindex].date;
+            userData[index].amount = userData[index].monthData[mindex].amount;
+            userData[index].balance = userData[index].monthData[mindex].balance;
             arr.push(cloneDeep(userData[index]));
           }.bind(this));
         }
@@ -160,7 +164,6 @@ class AddRent extends React.Component {
 
         <div id="results" className="App">
           <div className="App">
-            <h3>View </h3>
             {
               <div>
                 <div className="ag-theme-balham col-md-12 p-5"
