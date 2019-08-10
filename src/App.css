@@ -2,6 +2,20 @@
   text-align: center;
 }
 
+.react-datepicker-wrapper {
+  display: block !important;
+}
+
+.org-hamburger{
+  font-size: 25px;
+  cursor: pointer;
+}
+
+.sidebar-item.active {
+  border-left: 5px solid #2185d0;
+  background: #2185d054;
+}
+
 .or-h-b-b{
   border-bottom: 1px solid #80808036;
 }

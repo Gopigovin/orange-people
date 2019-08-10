@@ -1,9 +1,10 @@
 import React from 'react';
 import serialize from 'form-serialize';
 import { SidebarComponent } from "@syncfusion/ej2-react-navigations";
-import Test from './adduser';
+import AddUser from './adduser';
 import View from './view';
 import AddRent from '../addrent';
+import DashBoard from './dashboard';
 
 
 class Admin extends React.Component {
@@ -13,7 +14,6 @@ class Admin extends React.Component {
     this.state = {
       userData: null,
       addModule: false,
-      onInitTest: false,
       loginState: false,
       submitted: false,
       dashModule: false,
@@ -21,6 +21,7 @@ class Admin extends React.Component {
       addRentModule: false,
       testCompleted: false,
       formData: null,
+      activeListItem: null,
       v: 0,
       friendOptions: [
         {
@@ -142,8 +143,8 @@ class Admin extends React.Component {
   }
 
   onListClick = (event) => {
-
-    ;
+    document.querySelector(".sidebar-item.active") && document.querySelector(".sidebar-item.active").classList.remove("active")
+    event.currentTarget.className += " active";
     if (event.currentTarget.getAttribute("id") == "adduser") {
       this.setState({
         addModule: true
@@ -222,57 +223,49 @@ class Admin extends React.Component {
     }
     return (
       <div>
-
-        <div className="p-header App col-md-12 px-5 or-h-b-b">
+        <div className="p-header App col-md-12 px-4 or-h-b-b loading">
           <span className="fas fa-bars float-left org-hamburger" onClick={this.toggleClick} ></span>
           <span className="" ></span>
 
-          <button className="btn btn-outline-primary float-right btn-sm m-1" onClick={this.logout} >LogOut</button>
+          <button className="ui primary button float-right btn-sm m-1" onClick={this.logout} >LogOut</button>
 
         </div>
-        <div className="or-target">
+        <div className="or-target w-100 h-100">
           <SidebarComponent id="dockSidebar" target={".or-target"} ref={Sidebar => this.dockBar = Sidebar} enableDock={true} isOpen={true} dockSize="72px" width="220px">
             <div className="dock">
               <ul>
-                <li className="sidebar-item" id="dash" ref={this} onClick={this.onListClick}>
-                  <span className="e-icons home" />
-                  <span className="e-text" title="menu">DashBoard</span>
+                <li className="sidebar-item active" id="dash" ref={this} onClick={this.onListClick}>
+                  <span className="fa  fa-user-plus sidebar-icons" />
+                  <span className="e-text mx-4" title="menu">DashBoard</span>
                 </li>
                 <li className="sidebar-item" id="adduser" onClick={this.onListClick} >
-                  <span className="e-icons home" />
-                  <span className="e-text" title="home">Add User</span>
+                  <span className="fa fa-user-plus sidebar-icons" />
+                  <span className="e-text mx-4" title="home">Add User</span>
                 </li>
                 <li className="sidebar-item" id="view" onClick={this.onListClick}>
-                  <span className="e-icons profile" />
-                  <span className="e-text" title="profile">View User</span>
+                  <span className="fa fa-users sidebar-icons" />
+                  <span className="e-text mx-4" title="profile">View User</span>
                 </li>
                 <li className="sidebar-item" id="addrent" onClick={this.onListClick}>
-                  <span className="e-icons info" />
-                  <span className="e-text" title="info">AddRent</span>
+                  <span className="fa fa-credit-card sidebar-icons" />
+                  <span className="e-text mx-4" title="info">Add Rent</span>
                 </li>
                 <li className="sidebar-item" id="settings" onClick={this.onListClick}>
-                  <span className="e-icons settings" />
-                  <span className="e-text" title="settings">Settings</span>
+                  <span className="fa fa-cogs sidebar-icons" />
+                  <span className="e-text mx-4" title="settings">Settings</span>
                 </li>
               </ul>
             </div>
           </SidebarComponent>
           <div id="main-content container-fluid" className="p-5" style={{ height: "calc( 100vh - 30px )", overflow: 'scroll' }}>
-
+            {
+              (!this.state.addModule && !this.state.addRentModule && !this.state.viewModule) ?
+                <div className="App p-5">
+                  <DashBoard></DashBoard>
+                </div> : null
+            }
             {this.state.addModule &&
-              <div className="App p-5">
-                <Test {...this}></Test>
-              </div>
-            }
-            {this.state.dashModule &&
-              <div className="App p-5">
-                <h3>DashBoard </h3>
-              </div>
-            }
-
-
-            {this.state.onInitTest &&
-              <Test {...this}></Test>
+              <AddUser {...this}></AddUser>
             }
             {
               this.state.testCompleted && <h2>Test has been completed Successfully </h2>
@@ -284,11 +277,9 @@ class Admin extends React.Component {
             {this.state.addRentModule &&
               <AddRent {...this}></AddRent>
             }
-
-
           </div>
         </div>
-      </div>
+      </div >
 
     )
   }

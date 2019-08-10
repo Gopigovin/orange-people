@@ -22,25 +22,25 @@ class View extends React.Component {
       columnDefs: [
         {
           headerName: "Id", field: "_id", width: 100,
-          sortable: true, filter: true
+          sortable: true, filter: true, hide: true
         },
         {
-          headerName: "Name", field: "name", sortable: true, filter: true, width: 100
+          headerName: "Name", field: "name", sortable: true, filter: true, width: 150
         },
         {
-          headerName: "Email", field: "email", sortable: true, filter: true, width: 100
+          headerName: "Email", field: "email", sortable: true, filter: true, width: 150
         },
         {
-          headerName: "Hostel No", field: "hostelno", sortable: true, filter: true, width: 100,
+          headerName: "Hostel No", field: "hostelno", sortable: true, filter: true, width: 130,
         },
         {
-          headerName: "Room No", field: "roomno", sortable: true, filter: true, width: 100,
+          headerName: "Room No", field: "roomno", sortable: true, filter: true, width: 130,
         },
         {
           headerName: "AC/No-AC", field: "sharingtype", sortable: true, filter: true, width: 100,
         },
         {
-          headerName: "Working/Studying", field: "Professiontype", sortable: true, filter: true, width: 100,
+          headerName: "Working/Studying", field: "professiontype", sortable: true, filter: true, width: 100,
         },
         {
           headerName: "Advance", field: "advanceamount", sortable: true, filter: true, width: 100,
@@ -49,14 +49,14 @@ class View extends React.Component {
           headerName: "Parents No", field: "pmobileno", sortable: true, filter: true, width: 100,
         },
         {
-          headerName: "Phone", field: "smobileno", sortable: true, filter: true, width: 100,
+          headerName: "Phone", field: "smobileno", sortable: true, filter: true, width: 150,
         },
         {
           headerName: "Address", field: "address", sortable: true, filter: true
         },
 
         {
-          headerName: "Joining Date", field: "doj", sortable: true, filter: true, width: 100,
+          headerName: "Joining Date", field: "doj", sortable: true, filter: true, width: 150,
         },
         // {
         //   headerName: "Amount", field: "amount", sortable: true, filter: true, width: 100,
@@ -103,7 +103,13 @@ class View extends React.Component {
     let arr = [];
     if (this.props.state) {
       fetch('http://localhost:3000/admin', {
-        method: 'GET',
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          token: localStorage.getItem("token")
+        })
       }).then(response => response.json())
         .then(function (data) {
           debugger;
@@ -112,7 +118,9 @@ class View extends React.Component {
               viewRowData: null, loginState: true
             })
           } else {
-            document.querySelector('#viewloading').classList.remove("loading");
+            if (data.length > 0) {
+              document.querySelector('#viewloading').classList.remove("loading");
+            }
             var arr = [];
             var obj = {};
             data.forEach(function (value, index, array) {
@@ -144,20 +152,17 @@ class View extends React.Component {
 
     }
     return (
-      <div id="results" className="App">
-        <Form id="viewloading" className="loading">
-          <div className="App">
+      <div id="results" className="App h-100">
+        <Form id="viewloading" className="loading h-100">
+          <div className="App h-100">
 
             {
-              <div>
-                <div className="ag-theme-balham col-md-12 p-5"
-                  style={{
-                    height: '500px'
-                  }} >
+              <div className="h-100">
+                <div className="ag-theme-balham col-md-12 p-5 h-100">
                   <AgGridReact
                     columnDefs={this.state.columnDefs} defaultColDef={
                       this.state.edit
-                    } onCellEditingStopped={this.gridOnCellEditingStopped}
+                    } headerHeight="40" onCellEditingStopped={this.gridOnCellEditingStopped}
                     rowData={this.state.viewRowData}>
                   </AgGridReact>
                 </div>

@@ -13,11 +13,11 @@ import Admin from './App/admin';
 
 const routing = (
   <Router>
-    <div>   
-      <Switch>     
-      <Route path="/admin" component={Admin}/>   
+    <div>
+      <Switch>
+        <Route path="/admin" component={Admin} />
         <Route path="/register" component={Register} />
-        <Route path="/logout" component={Logout} />        
+        <Route path="/logout" component={Logout} />
         <Route path="/" component={App} />
       </Switch>
     </div>
