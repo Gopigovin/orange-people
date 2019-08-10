@@ -39,3 +39,27 @@ body{
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+
+
+.form-group{
+  display: flex;
+}
+
+.form-column input, .form-column textarea{
+  min-width: 400px;
+}
+
+.form-group label{
+  width: 160px;
+}
+
+.error-message__visible {
+  color: red;
+  text-align: left;
+}
+.e-content-animation {
+  background: #F8F8F8;
+}
+.e-content-animation .App.p-5 {
+  padding: 0rem !important;
+}
