@@ -30,10 +30,16 @@ class AddUser extends React.Component {
     console.log(data.value);
     this.setState({ professionType: data.value });
   }
+
+  handleChange=(date) =>{
+    this.setState({
+      startDate: date
+    });
+  }
   render() {
     return (
       <div>
-        <div id="results" className="search-results">
+        <div id="results" className="search-results p-5">
           <div>
             <Form id='loading' className="">
               <form id="data" onSubmit={this.props.onAddUserSubmit} className="form-group">
@@ -76,7 +82,8 @@ class AddUser extends React.Component {
                   </div>
                   <div className="form-group col-md-6">
                     <label for="exampleInputEmail1">Date of Joining</label>
-                    <DatePicker className="col-md-12" name="doj" placeholderText="Enter the Joining Date"></DatePicker>
+                    <DatePicker   selected={this.state.startDate}
+    onChange={this.handleChange} className="col-md-12" name="doj" placeholderText="Enter the Joining Date"></DatePicker>
                   </div>
                 </div>
                 <div className="row">
@@ -93,7 +100,9 @@ class AddUser extends React.Component {
                   <label for="exampleInputEmail1">Address</label>
                   <textarea placeholder="Enter permanent address" rows="3" name="address"></textarea>
                 </div>
+                <div className="text-center">
                 <input type="submit" value="Add" className="btn btn-outline-primary w-25" />
+                </div>
               </form>
             </Form>
           </div>

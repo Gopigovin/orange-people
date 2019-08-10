@@ -25,6 +25,10 @@ class View extends React.Component {
           sortable: true, filter: true, hide: true
         },
         {
+          headerName: "UniqueID", field: "uniqueID", width: 100,
+          sortable: true, filter: true
+        },
+        {
           headerName: "Name", field: "name", sortable: true, filter: true, width: 150
         },
         {
@@ -57,6 +61,10 @@ class View extends React.Component {
 
         {
           headerName: "Joining Date", field: "doj", sortable: true, filter: true, width: 150,
+        },
+        
+        {
+          headerName: "Status", field: "status", sortable: true, filter: true, width: 100,
         },
         // {
         //   headerName: "Amount", field: "amount", sortable: true, filter: true, width: 100,
@@ -99,7 +107,7 @@ class View extends React.Component {
   }
 
   componentDidMount() {
-    debugger;
+    ;
     let arr = [];
     if (this.props.state) {
       fetch('http://localhost:3000/admin', {
@@ -112,7 +120,7 @@ class View extends React.Component {
         })
       }).then(response => response.json())
         .then(function (data) {
-          debugger;
+          ;
           if (data.status == 204) {
             this.setState({
               viewRowData: null, loginState: true
@@ -131,7 +139,7 @@ class View extends React.Component {
               };
               arr.push(obj);
             });
-            debugger;
+            ;
             this.setState({
               viewRowData: data, loginState: false,
               friendOptions: arr
@@ -158,7 +166,7 @@ class View extends React.Component {
 
             {
               <div className="h-100">
-                <div className="ag-theme-balham col-md-12 p-5 h-100">
+                <div className="ag-theme-balham w-100 p-4 h-100">
                   <AgGridReact
                     columnDefs={this.state.columnDefs} defaultColDef={
                       this.state.edit

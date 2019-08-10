@@ -22,59 +22,22 @@ class Admin extends React.Component {
       testCompleted: false,
       formData: null,
       activeListItem: null,
-      v: 0,
-      friendOptions: [
-        {
-          key: 'Jenny Hess',
-          text: 'Jenny Hess',
-          value: 'Jenny Hess',
-          image: { avatar: true, src: '/images/avatar/small/jenny.jpg' },
-        }
-      ]
+      v: 0     
     }
   }
 
 
-  onAddRentSubmit = function (event) {
-
-    event.preventDefault();
-    var form = document.querySelector('#data');
-    ;
-    var addRentData = serialize(form, { hash: true });
-    addRentData = { "username": addRentData.username, "monthData": [{ "amount": addRentData.amount, "balance": addRentData.balance, "date": addRentData.date }] }
-    fetch('http://localhost:3000/addrent', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        addRentData
-      })
-    }).then(response => response.json())
-      .then(function (data) {
-
-        if (data.status == 204) {
-
-        } else {
-
-        }
-
-      }.bind(this)
-      ).catch(function (error) {
-
-
-      }.bind(this));
-  }.bind(this);
-
+ 
 
   onAddUserSubmit = function (event) {
-    debugger
+    
     event.preventDefault();
     var form = document.querySelector('#data');
     document.querySelector('#loading').classList.add("loading");
     var addData = serialize(form, { hash: true });
     addData["key"] = "user";
-    // addData["uniqueID"] = "p"+;
+    addData["status"] = "active";
+    addData["uniqueID"] = "ORG"+Math.random().toString().substr(2,4);
     fetch('http://localhost:3000/add', {
       method: 'POST',
       headers: {
@@ -89,7 +52,7 @@ class Admin extends React.Component {
         if (data.status == 204) {
 
         } else {
-          debugger
+          
           document.querySelector('#loading').classList.remove("loading");
 
         }
@@ -102,40 +65,7 @@ class Admin extends React.Component {
   }.bind(this);
 
   componentDidMount() {
-    fetch('http://localhost:3000/admin', {
-      method: 'GET',
-    }).then(response => response.json())
-      .then(function (data) {
-
-        if (data.status == 204) {
-          this.setState({
-            userData: null, loginState: true
-          })
-        } else {
-          var arr = [];
-          var obj = {};
-          data.forEach(function (value, index, array) {
-            obj = {
-              key: value["_id"],
-              text: value["name"],
-              value: value["_id"]
-            };
-            arr.push(obj);
-          });
-          debugger;
-          this.setState({
-            userData: data, loginState: false,
-            friendOptions: arr
-
-          });
-        }
-      }.bind(this)
-      ).catch(function (error) {
-        this.setState({
-          userData: null,
-          loginState: false,
-        })
-      }.bind(this));
+  
   }
   toggleClick() {
 
@@ -231,7 +161,7 @@ class Admin extends React.Component {
 
         </div>
         <div className="or-target w-100 h-100">
-          <SidebarComponent id="dockSidebar" target={".or-target"} ref={Sidebar => this.dockBar = Sidebar} enableDock={true} isOpen={true} dockSize="72px" width="220px">
+          <SidebarComponent id="dockSidebar"  enableGestures="false" target={".or-target"} ref={Sidebar => this.dockBar = Sidebar} enableDock={true} isOpen={true} dockSize="72px" width="220px">
             <div className="dock">
               <ul>
                 <li className="sidebar-item active" id="dash" ref={this} onClick={this.onListClick}>
@@ -257,7 +187,7 @@ class Admin extends React.Component {
               </ul>
             </div>
           </SidebarComponent>
-          <div id="main-content container-fluid" className="p-5" style={{ height: "calc( 100vh - 30px )", overflow: 'scroll' }}>
+          <div id="main-content container-fluid" className="" style={{ height: "calc( 100vh - 30px )", overflow: 'scroll' }}>
             {
               (!this.state.addModule && !this.state.addRentModule && !this.state.viewModule) ?
                 <div className="App p-5">
