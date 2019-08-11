@@ -8,6 +8,12 @@
   border-color: #2185d0 rgba(0,0,0,.1) !important;   
 }
 
+.notification-container {
+ 
+  top: 50% !important;
+
+}
+
 .o-disable-event{
   pointer-events: none;
 }

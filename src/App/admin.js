@@ -5,6 +5,8 @@ import AddUser from './adduser';
 import View from './view';
 import AddRent from '../addrent';
 import DashBoard from './dashboard';
+import 'react-notifications/lib/notifications.css';
+import {NotificationContainer, NotificationManager} from 'react-notifications';
 
 
 class Admin extends React.Component {
@@ -29,40 +31,6 @@ class Admin extends React.Component {
 
  
 
-  onAddUserSubmit = function (event) {
-    
-    event.preventDefault();
-    var form = document.querySelector('#data');
-    document.querySelector('#loading').classList.add("loading");
-    var addData = serialize(form, { hash: true });
-    addData["key"] = "user";
-    addData["status"] = "active";
-    addData["uniqueID"] = "ORG"+Math.random().toString().substr(2,4);
-    fetch('http://localhost:3000/add', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        addData
-      })
-    }).then(response => response.json())
-      .then(function (data) {
-
-        if (data.status == 204) {
-
-        } else {
-          
-          document.querySelector('#loading').classList.remove("loading");
-
-        }
-
-      }.bind(this)
-      ).catch(function (error) {
-
-
-      }.bind(this));
-  }.bind(this);
 
   componentDidMount() {
   
@@ -188,6 +156,7 @@ class Admin extends React.Component {
             </div>
           </SidebarComponent>
           <div id="main-content container-fluid" className="" style={{ height: "calc( 100vh - 30px )", overflow: 'scroll' }}>
+          <NotificationContainer/>
             {
               (!this.state.addModule && !this.state.addRentModule && !this.state.viewModule) ?
                 <div className="App p-5">
