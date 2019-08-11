@@ -133,7 +133,7 @@ class Admin extends React.Component {
             <div className="dock">
               <ul>
                 <li className="sidebar-item active" id="dash" ref={this} onClick={this.onListClick}>
-                  <span className="fa  fa-user-plus sidebar-icons" />
+                  <span className="fa fa-desktop sidebar-icons" />
                   <span className="e-text mx-4" title="menu">DashBoard</span>
                 </li>
                 <li className="sidebar-item" id="adduser" onClick={this.onListClick} >
@@ -156,7 +156,7 @@ class Admin extends React.Component {
             </div>
           </SidebarComponent>
           <div id="main-content container-fluid" className="" style={{ height: "calc( 100vh - 30px )", overflow: 'scroll' }}>
-          <NotificationContainer/>
+          
             {
               (!this.state.addModule && !this.state.addRentModule && !this.state.viewModule) ?
                 <div className="App p-5">

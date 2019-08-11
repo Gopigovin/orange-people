@@ -1,6 +1,8 @@
 
 
 import React from "react";
+import 'react-notifications/lib/notifications.css';
+import { NotificationContainer, NotificationManager, Notifications } from 'react-notifications';
 
 class Login extends React.Component {
     constructor(props) {
@@ -33,7 +35,7 @@ class Login extends React.Component {
             .then(function (Response) {
                 debugger
                 localStorage.setItem('token', Response.token)
-                if (Response.status == 200) {
+                if (Response.status == 200) {                    
                     document.querySelector('#login-waitpopup').classList.remove("loading");
                     document.getElementsByTagName('body')[0].classList.remove('o-disable-events');
                     this.setState({
@@ -42,6 +44,9 @@ class Login extends React.Component {
                     this.props.history.push('/admin');
 
                 } else {
+                    document.querySelector('#login-waitpopup').classList.remove("loading");
+                    NotificationManager.error('Invalid username and password', 'Error');
+
                     this.setState({
                         loginState: false
                     })
@@ -50,12 +55,9 @@ class Login extends React.Component {
             }.bind(this)).catch(function (error) {
                 debugger
             });
-    }
-
-    onLoginSubmit = () => {
-
         this.props.history.push('/');
     }
+ 
 
     onRegisterSubmit = () => {
         this.props.history.push('/register');
@@ -72,12 +74,15 @@ class Login extends React.Component {
             <div className=" container col-md-4  o-login">
                 <h2 className="col-md-12 App pb-3"> Orange People </h2>
 
-                <form className="ui large form" id="login-waitpopup" onSubmit={this.onLoginSubmitClick}  >
+                <form className="ui large form needs-validation" noValidate id="login-waitpopup" onSubmit={this.onLoginSubmitClick}  >
                     <div className="ui stacked">
                         <div className="field">
                             <div className="ui left icon input">
                                 <i className="user icon"></i>
-                                <input type="text" name="email" name="user" ref={this.username} placeholder="E-mail address" />
+                                <input type="" required  name="user" ref={this.username} placeholder="Enter the username" />
+                                <div className="invalid-feedback">
+                                    Please enter a username.
+                   </div>
                             </div>
                         </div>
                         <div className="field">
@@ -85,12 +90,14 @@ class Login extends React.Component {
                                 <i className="lock icon"></i>
                                 <input type="password" name="password" ref={this.password} placeholder="Password" />
                             </div>
-                        </div>
+                        </div>                       
+                    {this.state.loginState === false && (                    
+                    <div class="alert alert-danger">
+  <strong></strong> Enter a valid login details
+</div>
+                    )}                    
                         <input type="submit" className="ui fluid btn btn-primary btn-block ui download primary button" value="Login" />
-                    </div>
-                    <div className="ui error message"></div>
-                    {this.state.loginState === false && (<h2> Enter a valid login details</h2>)}
-                    {this.state.loginState && (<h2> successfully loged in</h2>)}
+                    </div>                    
                 </form>
 
             </div>

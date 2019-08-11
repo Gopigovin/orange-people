@@ -55,12 +55,11 @@ class AddUser extends React.Component {
             if (data.status == 204) {
 
             } else {
-
+              debugger
               document.querySelector('#loading').classList.remove("loading");
               form.classList.remove('was-validated');
               NotificationManager.success(' User added successfully', 'Success');
               form.reset();
-
             }
 
           }.bind(this)
@@ -113,23 +112,25 @@ class AddUser extends React.Component {
     return (
       <div>
         <div id="results" className="search-results p-5">
+        <NotificationContainer/>
           <div>
             <Form id='loading'>
               <form id="data" onSubmit={this.onAddUserSubmit} className="form-group needs-validation" noValidate>
+                
                 <div className="form-group">
                   <label for="exampleInputEmail1"> Name</label>
                   <input type="" required className="form-control" placeholder="Enter name" name="name"></input>
-                  <div class="invalid-feedback">
+                  <div className="invalid-feedback">
                     Please enter a username.
                    </div>
-                  {/* <div class="valid-feedback">
+                  {/* <div className="valid-feedback">
         Looks good!
       </div> */}
                 </div>
                 <div className="form-group">
                   <label for="exampleInputEmail1"> Email</label>
-                  <input type="" required className="form-control" placeholder="Enter nmail" name="email"></input>
-                  <div class="invalid-feedback">
+                  <input type="" required className="form-control" placeholder="Enter email" name="email"></input>
+                  <div className="invalid-feedback">
                     Please enter a email.
                    </div>
                 </div>
@@ -137,14 +138,14 @@ class AddUser extends React.Component {
                   <div className="form-group col-md-6">
                     <label for="exampleInputEmail1">Hostel No</label>
                     <input type="" required className="form-control" placeholder="Enter hostel number" name="hostelno"></input>
-                    <div class="invalid-feedback">
+                    <div className="invalid-feedback">
                       Please enter a hostel number.
                    </div>
                   </div>
                   <div className="form-group col-md-6">
                     <label for="exampleInputEmail1">Room No</label>
                     <input type="" required className="form-control" placeholder="Enter room number" name="roomno"></input>
-                    <div class="invalid-feedback">
+                    <div className="invalid-feedback">
                       Please enter a room number.
                    </div>
                   </div>
@@ -154,7 +155,7 @@ class AddUser extends React.Component {
                     <label for="exampleInputEmail1">Sharing (AC/ Non-A/C)</label>
                     <Form.Select fluid onChange={this.onSharingChange} options={stayOptions} placeholder="Sharing (AC/ Non-A/C)" />
                     <input type="" required value={this.state.sharingType} className="form-control  d-none" placeholder="Email" name="sharingtype"></input>
-                    <div class="invalid-feedback">
+                    <div className="invalid-feedback">
                       Please enter a sharing mode.
                    </div>
                   </div>
@@ -163,16 +164,16 @@ class AddUser extends React.Component {
                     <Form.Select fluid onChange={this.onProfessiontypeChange} options={profOptions} placeholder="Studying / Working" />
 
                     <input required className="form-control  d-none" placeholder="Email" name="professiontype" value={this.state.professionType}></input>
-                    <div class="invalid-feedback">
+                    <div className="invalid-feedback">
                       Please enter a profession type.
                    </div>
                   </div>
                 </div>
                 <div className="row">
                   <div className="form-group col-md-6">
-                    <label for="exampleInputEmail1">Advance Aount</label>
+                    <label for="exampleInputEmail1">Advance Amount</label>
                     <input type required className="form-control" placeholder="Enter the advance amount" name="advanceamount"></input>
-                    <div class="invalid-feedback">
+                    <div className="invalid-feedback">
                       Please enter the advance amount
                    </div>
                   </div>
@@ -180,31 +181,31 @@ class AddUser extends React.Component {
                     <label for="exampleInputEmail1">Date of Joining</label>
                     <DatePicker selected={this.state.startDate}
                       onChange={this.handleChange} required={true} className="col-md-12" name="doj" placeholderText="Enter the Joining Date"></DatePicker>
-                    <div class="invalid-feedback">
+                    <div className="invalid-feedback">
                       Please enter the date of Joining
                    </div>
                   </div>
                 </div>
                 <div className="row">
                   <div className="form-group col-md-6">
-                    <label for="exampleInputEmail1">Mobile No</label>
+                    <label for="exampleInputEmail1">Mobile Number</label>
                     <input type="" required className="form-control" placeholder="Email" name="smobileno"></input>
-                    <div class="invalid-feedback">
+                    <div className="invalid-feedback">
                       Please enter the mobile number
                    </div>
                   </div>
                   <div className="form-group col-md-6">
-                    <label for="exampleInputEmail1">Parents Mob No</label>
+                    <label for="exampleInputEmail1">Parent's Mobile Number</label>
                     <input type="" required className="form-control" placeholder="Email" name="pmobileno"></input>
-                    <div class="invalid-feedback">
+                    <div className="invalid-feedback">
                       Please enter the Parents amount
                    </div>
                   </div>
                 </div>
                 <div className="form-group">
                   <label for="exampleInputEmail1">Address</label>
-                  <textarea required placeholder="Enter permanent address" rows="3" name="address"></textarea>
-                  <div class="invalid-feedback">
+                  <textarea required className="form-control" placeholder="Enter permanent address" rows="3" name="address"></textarea>
+                  <div className="invalid-feedback">
                     Please enter the permanent address
                    </div>
                 </div>

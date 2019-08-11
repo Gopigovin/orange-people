@@ -12,8 +12,17 @@ class Logout extends React.Component {
     render() {
         return (
             <div id="results" className="App">
-                <span>You are Logged Out</span>                
-                <button  className="ui primary button float-right btn-sm m-1" onClick={this.loginPage}>Login Again</button>                    
+                
+                <div className="p-header App col-md-12 px-5">
+                <span className="" ></span>
+               
+            </div>
+            <div class="col-md-12 p-5">
+               <div class="alert alert-info p-5">
+  You are logged out. click the login button to login again 
+</div>            
+                <button  className="ui primary button  btn-sm m-1" onClick={this.loginPage}>Login Again</button>                    
+            </div>
             </div>
         );
     }

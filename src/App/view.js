@@ -85,7 +85,7 @@ class View extends React.Component {
     var field = event.colDef.field;
     var value = event.value;
     var updateData = { _id: event.data._id, field: field, value: value }
-    fetch('http://localhost:3000/update', {
+    fetch('http://localhost:3000/updateUser', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -170,7 +170,8 @@ class View extends React.Component {
                   <AgGridReact
                     columnDefs={this.state.columnDefs} defaultColDef={
                       this.state.edit
-                    } headerHeight="40" onCellEditingStopped={this.gridOnCellEditingStopped}
+                    } headerHeight="40" 
+                    onCellEditingStopped={this.gridOnCellEditingStopped}
                     rowData={this.state.viewRowData}>
                   </AgGridReact>
                 </div>

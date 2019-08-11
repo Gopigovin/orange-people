@@ -2,6 +2,12 @@
 @import "../node_modules/@syncfusion/ej2-react-navigations/styles/material.css";
 @import "https://cdn.jsdelivr.net/npm/semantic-ui/dist/semantic.min.css";
 
+
+.p-header, #dockSidebar.e-sidebar {
+  background: aliceblue !important;
+}
+
+
 .ui.loading.form:after {
   width: 4em !important;
   height: 4em !important;
