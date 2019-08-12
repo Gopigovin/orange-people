@@ -61,6 +61,42 @@ body{
     box-shadow: 0 1px 1px rgba(0,0,0,.1)
 
 }
+
+.invoice-company-header {
+  text-align: center;
+  display: block;
+  font-size: 25px;
+  font-family: Lato,'Helvetica Neue',Arial,Helvetica,sans-serif;
+}
+
+.recipt-column{
+  float: right;
+  min-width: 300px;
+}
+.recipt-column tr {
+  text-align: left;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  min-width: 150px;
+}
+.recipt-details-table td, .recipt-details-table th {
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  padding: 10px;
+}
+.recipt-details-table th {
+  background: rgba(0, 0, 0, 0.1);
+}
+.recipt-details-table {
+  width: 100%;
+}
+.recipt-column .column-left {
+  background: rgba(0, 0, 0, 0.1);
+}
+.payment-mode.col-sm {
+  padding: 20px;
+}
+.text-bold-800 {
+  font-weight: bold;
+}
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
