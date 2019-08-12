@@ -81,7 +81,6 @@ class AddRent extends React.Component {
         {
           headerName: "Month", field: "date", sortable: true, filter: true
         }
-
       ],
       rentRowData: null
     }
@@ -95,7 +94,10 @@ class AddRent extends React.Component {
     if (field == "balance") {
       event.data.monthData[0].balance = value;
     }
-    var updateData = { _id: event.data._id, field: field, value: value, data: event.data, rowIndex: event.rowIndex }
+    if (field == "amount") {
+      event.data.monthData[0].amount = value;
+    }
+    var updateData = { _id: event.data._id, field: field, value: value, data: event.data, rowIndex: event.data.monthData.findIndex(x => x.date === event.data.date) }
     fetch('http://localhost:3000/update', {
       method: 'POST',
       headers: {
@@ -195,20 +197,13 @@ class AddRent extends React.Component {
   }
 
   onAddRentSubmit = function (event) {
-
     var forms = document.getElementsByClassName('needs-validation');
     var validation = Array.prototype.filter.call(forms, function (form) {
-
       if (form.checkValidity() === false) {
         event.preventDefault();
         event.stopPropagation();
       }
       if (form.checkValidity() === true) {
-
-
-
-
-
         event.preventDefault();
         var form = document.querySelector('#data');
         ;
@@ -263,7 +258,7 @@ class AddRent extends React.Component {
   render() {
     return (
       <div>
-           <NotificationContainer/>
+        <NotificationContainer />
         <div id="results" className="search-results">
           <div className=" p-5">
             <form id="data" onSubmit={this.onAddRentSubmit} noValidate className="form-group ui form needs-validation">

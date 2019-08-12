@@ -4,9 +4,10 @@ import { SidebarComponent } from "@syncfusion/ej2-react-navigations";
 import AddUser from './adduser';
 import View from './view';
 import AddRent from '../addrent';
+import RentBill from "./rentbill";
 import DashBoard from './dashboard';
 import 'react-notifications/lib/notifications.css';
-import {NotificationContainer, NotificationManager} from 'react-notifications';
+import { NotificationContainer, NotificationManager } from 'react-notifications';
 
 
 class Admin extends React.Component {
@@ -14,6 +15,7 @@ class Admin extends React.Component {
     super(props)
     this.toggleClick = this.toggleClick.bind(this);
     this.state = {
+      rentBillModule: false,
       userData: null,
       addModule: false,
       loginState: false,
@@ -24,16 +26,16 @@ class Admin extends React.Component {
       testCompleted: false,
       formData: null,
       activeListItem: null,
-      v: 0     
+      v: 0
     }
   }
 
 
- 
+
 
 
   componentDidMount() {
-  
+
   }
   toggleClick() {
 
@@ -51,6 +53,7 @@ class Admin extends React.Component {
         testCompleted: false,
         onInitTest: false,
         submitted: false,
+        rentBillModule: false,
         addRentModule: false,
       })
     }
@@ -62,6 +65,7 @@ class Admin extends React.Component {
         testCompleted: false,
         onInitTest: false,
         addRentModule: false,
+        rentBillModule: false,
         submitted: false
       })
     }
@@ -69,15 +73,29 @@ class Admin extends React.Component {
       this.setState({
         viewModule: true,
         addModule: false,
-        dashModule: false, addRentModule: false,
+        dashModule: false,
+         addRentModule: false,
         testCompleted: false,
         onInitTest: false,
+        rentBillModule: false
       })
     }
 
     if (event.currentTarget.getAttribute("id") == "addrent") {
       this.setState({
         addRentModule: true,
+        viewModule: false,
+        addModule: false,
+        dashModule: false,
+        testCompleted: false,
+        onInitTest: false,
+        rentBillModule: false
+      })
+    }
+    if (event.currentTarget.getAttribute("id") == "rentbill") {
+      this.setState({
+        rentBillModule: true,
+        addRentModule: false,
         viewModule: false,
         addModule: false,
         dashModule: false,
@@ -129,7 +147,7 @@ class Admin extends React.Component {
 
         </div>
         <div className="or-target w-100 h-100">
-          <SidebarComponent id="dockSidebar"  enableGestures="false" target={".or-target"} ref={Sidebar => this.dockBar = Sidebar} enableDock={true} isOpen={true} dockSize="72px" width="220px">
+          <SidebarComponent id="dockSidebar" enableGestures="false" target={".or-target"} ref={Sidebar => this.dockBar = Sidebar} enableDock={true} isOpen={true} dockSize="72px" width="220px">
             <div className="dock">
               <ul>
                 <li className="sidebar-item active" id="dash" ref={this} onClick={this.onListClick}>
@@ -148,6 +166,10 @@ class Admin extends React.Component {
                   <span className="fa fa-credit-card sidebar-icons" />
                   <span className="e-text mx-4" title="info">Add Rent</span>
                 </li>
+                <li className="sidebar-item" id="rentbill" onClick={this.onListClick}>
+                  <span className="fa fa-cogs sidebar-icons" />
+                  <span className="e-text mx-4" title="settings">Rent Bill</span>
+                </li>
                 <li className="sidebar-item" id="settings" onClick={this.onListClick}>
                   <span className="fa fa-cogs sidebar-icons" />
                   <span className="e-text mx-4" title="settings">Settings</span>
@@ -156,9 +178,9 @@ class Admin extends React.Component {
             </div>
           </SidebarComponent>
           <div id="main-content container-fluid" className="" style={{ height: "calc( 100vh - 30px )", overflow: 'scroll' }}>
-          
+
             {
-              (!this.state.addModule && !this.state.addRentModule && !this.state.viewModule) ?
+              (!this.state.addModule && !this.state.addRentModule && !this.state.viewModule &&!this.state.rentBillModule) ?
                 <div className="App p-5">
                   <DashBoard></DashBoard>
                 </div> : null
@@ -176,6 +198,11 @@ class Admin extends React.Component {
             {this.state.addRentModule &&
               <AddRent {...this}></AddRent>
             }
+
+            {this.state.rentBillModule &&
+              <RentBill {...this}></RentBill>
+            }
+
           </div>
         </div>
       </div >

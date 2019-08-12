@@ -6,8 +6,8 @@ class Register extends React.Component {
   render() {
     return (
       <div>
-        <h1>Resiter page</h1>
-        <input type="text" className="form-control" placeholder="Search..." value="Search..." onChange={this.onInputChange}></input>
+        <h4>The page is under progress </h4>
+        {/* <input type="text" className="form-control" placeholder="Search..." value="Search..." onChange={this.onInputChange}></input> */}
       </div>)
   }
 }
